@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Api\CreateProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductCollection;
@@ -54,7 +55,7 @@ class ProductController extends Controller
         $product->save();
         return response([
             'data' => new ProductResource($product)
-        ],201);
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -94,7 +95,7 @@ class ProductController extends Controller
 
         return response([
             'data' => new ProductResource($product)
-        ],201);
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -105,6 +106,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
